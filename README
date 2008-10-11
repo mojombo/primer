@@ -36,9 +36,8 @@ by creating an instance of Primer.Layer:
 
 Now you can draw on the layer. Let's draw a 20x20 pixel gray square.
 
-  square.beginFill("#888888")
+  square.fillStyle = "#888888"
   square.fillRect(0, 0, 20, 20)
-  square.endFill()
   
 The square won't be drawn until it is added to the Primer instance.
 

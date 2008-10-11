@@ -72,16 +72,20 @@ Primer.Layer.prototype = {
     this.primer.draw()
   },
   
-  beginFill: function(a) {
+  set fillStyle(a) {
     this.calls.push(["fillStyle", a])
   },
   
-  endFill: function() {
+  set strokeStyle(a) {
+    this.calls.push(["strokeStyle", a])
+  },
+  
+  fill: function() {
     this.calls.push(["fill"])
   },
   
-  lineStyle: function(a) {
-    this.calls.push(["strokeStyle", a])
+  stroke: function() {
+    this.calls.push(["stroke"])
   },
   
   fillRect: function(a, b, c, d) {
@@ -100,6 +104,7 @@ Primer.Layer.prototype = {
         case "fillStyle":   this.context.fillStyle = call[1]; break
         case "fillRect":    this.context.fillRect(call[1], call[2], call[3], call[4]); break
         case "fill":        this.context.fill(); break
+        case "stroke":      this.context.stroke(); break
       }
     }
     

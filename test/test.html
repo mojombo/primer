@@ -12,23 +12,14 @@
         var p1 = new Primer('#p1', 100, 100)
         
         var square = new Primer.Layer()
-        square.lineStyle("#00FF00")
-        square.beginFill("#FF0000")
-          square.fillRect(0, 0, 20, 20)
-        square.endFill()
+        square.strokeStyle = "#00FF00"
+        square.fillStyle = "#FF0000"
+        square.fillRect(0, 0, 20, 20)
         
         square.x = 50
         square.y = 50
         
         p1.addChild(square)
-        
-        var box = new Primer.Layer()
-        box.beginFill("#00FF00")
-          box.fillRect(0, 0, 20, 20)
-        box.endFill()
-        box.y = 10
-        
-        p1.addChild(box)
         
         function go() {
           square.x += 1
