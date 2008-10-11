@@ -35,8 +35,10 @@ Primer.Layer = function() {
   this.children = []
   this.calls = []
   
-  this.xval = 0
-  this.yval = 0
+  this.xVal = 0
+  this.yVal = 0
+  
+  this.visibleVal = true
 }
 
 Primer.Layer.prototype = {
@@ -49,20 +51,29 @@ Primer.Layer.prototype = {
   },
   
   get x() {
-    return this.xval
+    return this.xVal
   },
   
-  set x(xval) {
-    this.xval = xval
+  set x(xVal) {
+    this.xVal = xVal
     if(this.primer) this.primer.draw()
   },
   
   get y() {
-    return this.yval
+    return this.yVal
   },
   
-  set y(yval) {
-    this.yval = yval
+  set y(yVal) {
+    this.yVal = yVal
+    if(this.primer) this.primer.draw()
+  },
+  
+  get visible() {
+    return this.visibleVal
+  },
+  
+  set visible(visibleVal) {
+    this.visibleVal = visibleVal
     if(this.primer) this.primer.draw()
   },
   
@@ -93,6 +104,8 @@ Primer.Layer.prototype = {
   },
   
   draw: function() {
+    if(!this.visible) { return }
+    
     this.context.save()
     this.context.translate(this.x, this.y)
     
