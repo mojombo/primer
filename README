@@ -12,6 +12,10 @@ Primer. By TPW.
 
 Primer is a Flash-like API layered on top of Canvas.
 
+
+BASIC DRAWING EXAMPLE
+-----------------------------------------------------------------------------
+
 In your html create an empty div with an id you can reference later:
 
   <div id="primer"></div>
@@ -30,12 +34,34 @@ by creating an instance of Primer.Layer:
 
   var square = new Primer.Layer()
 
-Now you can draw on the layer. Let's draw a gray square.
+Now you can draw on the layer. Let's draw a 20x20 pixel gray square.
 
   square.beginFill("#888888")
-  square.fillRect(10, 10, 20, 20)
+  square.fillRect(0, 0, 20, 20)
   square.endFill()
   
 The square won't be drawn until it is added to the Primer instance.
 
   primer.addChild(square)
+  
+  
+BASIC ANIMATION EXAMPLE
+-----------------------------------------------------------------------------
+
+If you follow the instructions in [Basic Drawing Example], you'll have an
+object called `square` that has been drawn to the screen. Moving the square
+to another place is as easy as setting its `x` and `y` values.
+
+  square.x = 10
+  square.y = 10
+  
+The square has now moved to its new location. Contrary to raw Canvas work,
+Primer layers redraw themselves any time they're moved. If we'd like the
+square to move slowly across the screen, we can simply increase the `x` value
+on an interval.
+
+  function go() {
+    square.x += 1
+  }
+  
+  setInterval(go, 100)
