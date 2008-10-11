@@ -10,7 +10,13 @@
     <script type="text/javascript">
       $(function() {
         var p1 = new Primer('#p1', 100, 100)
-        p1.draw()
+        
+        var square = new Primer.Layer()
+        square.beginFill("#888888")
+          square.fillRect(10, 10, 20, 20)
+        square.endFill()
+        
+        p1.addChild(square)
       })
     </script>
   </head>

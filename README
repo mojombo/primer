@@ -12,4 +12,30 @@ Primer. By TPW.
 
 Primer is a Flash-like API layered on top of Canvas.
 
-var squares = new Primer.Layer()
+In your html create an empty div with an id you can reference later:
+
+  <div id="primer"></div>
+
+In your JavaScript, create a new Primer object for the div, specifying width
+and height.
+
+  $(function() {
+    var primer = new Primer("#primer", 100, 100)
+    
+    ...
+  })
+
+Now that you have a Primer instance, you can start adding layers to it. Start
+by creating an instance of Primer.Layer:
+
+  var square = new Primer.Layer()
+
+Now you can draw on the layer. Let's draw a gray square.
+
+  square.beginFill("#888888")
+  square.fillRect(10, 10, 20, 20)
+  square.endFill()
+  
+The square won't be drawn until it is added to the Primer instance.
+
+  primer.addChild(square)
