@@ -64,3 +64,19 @@ on an interval.
   }
   
   setInterval(go, 100)
+  
+
+BASIC EVENTS EXAMPLE
+-----------------------------------------------------------------------------
+
+In Primer it's easy to attach event listeners to your Layers. Let's say we
+want to log "in" and "out" when you mouse over and mouse out of your gray
+square.
+
+  square.mouseover(function() {
+    console.log("in")
+  })
+  
+  square.mouseout(function() {
+    console.log("out")
+  })
