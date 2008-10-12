@@ -3,7 +3,7 @@ Primer = function(container, width, height) {
   this.width = width
   this.height = height
   
-  this.hits = []
+  this.actions = []
   
   this.init()
 }
@@ -40,6 +40,11 @@ Primer.prototype = {
   
   ghost: function(e) {
     this.root.ghost(e)
+    for(var i in this.actions) {
+      var action = this.actions[i]
+      action[0](action[1])
+    }
+    this.actions = []
   }
 }
 
@@ -218,13 +223,13 @@ Primer.Layer.prototype = {
   ghostDetect: function(e) {
     if(this.context.isPointInPath(e.localX - this.x, e.localY - this.y)) {
       if(!this.mouseWithin) {
-        this.mouseoverVal(e)
+        this.primer.actions.push([this.mouseoverVal, e])
       }
       
       this.mouseWithin = true
     } else {
       if(this.mouseWithin) {
-        this.mouseoutVal(e)
+        this.primer.actions.push([this.mouseoutVal, e])
       }
       
       this.mouseWithin = false

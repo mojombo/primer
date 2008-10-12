@@ -9,11 +9,19 @@
     <script src="../primer.js" type="text/javascript"></script>
     <script type="text/javascript">
       $(function() {
-        p1 = new Primer('#p1', 100, 100)
+        p1 = new Primer('#p1', 300, 300)
         
         var hold = new Primer.Layer()
+        hold.fillRect(0, 0, 2, 2)
         hold.x = 20
         hold.y = 20
+        p1.addChild(hold)
+        
+        var box = new Primer.Layer()
+        box.fillRect(0, 0, 10, 10)
+        box.visible = false
+        
+        p1.addChild(box)
         
         var square = new Primer.Layer()
         square.strokeStyle = "#00FF00"
@@ -28,14 +36,14 @@
         square.y = 50
         
         hold.addChild(square)
-        p1.addChild(hold)
+        
         
         square.mouseover(function() {
-          console.log("in")
+          box.visible = true
         })
         
         square.mouseout(function() {
-          console.log("out")
+          box.visible = false
         })
         
         function go() {
