@@ -21,12 +21,20 @@
         
         p1.addChild(square)
         
+        square.mouseover(function() {
+          console.log("in")
+        })
+        
+        square.mouseout(function() {
+          console.log("out")
+        })
+        
         function go() {
           square.x += 1
           square.visible = !square.visible
         }
         
-        setInterval(go, 100)
+        // setInterval(go, 100)
       })
     </script>
   </head>
