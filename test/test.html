@@ -18,7 +18,11 @@
         var square = new Primer.Layer()
         square.strokeStyle = "#00FF00"
         square.fillStyle = "#FF0000"
-        square.fillRect(0, 0, 20, 20)
+        square.beginPath()
+        square.moveTo(0, 0)
+        square.lineTo(20, 0)
+        square.lineTo(0, 20)
+        square.fill()
         
         square.x = 50
         square.y = 50

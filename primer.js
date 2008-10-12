@@ -132,6 +132,18 @@ Primer.Layer.prototype = {
     this.calls.push(["strokeStyle", a])
   },
   
+  beginPath: function() {
+    this.calls.push(["beginPath"])
+  },
+  
+  moveTo: function(a, b) {
+    this.calls.push(["moveTo", a, b])
+  },
+  
+  lineTo: function(a, b) {
+    this.calls.push(["lineTo", a, b])
+  },
+  
   fill: function() {
     this.calls.push(["fill"])
   },
@@ -159,6 +171,9 @@ Primer.Layer.prototype = {
         case "strokeStyle": this.context.strokeStyle = call[1]; break
         case "fillStyle":   this.context.fillStyle = call[1]; break
         case "fillRect":    this.context.fillRect(call[1], call[2], call[3], call[4]); break
+        case "beginPath":   this.context.beginPath(); break
+        case "moveTo":      this.context.moveTo(call[1], call[2]); break
+        case "lineTo":      this.context.lineTo(call[1], call[2]); break
         case "fill":        this.context.fill(); break
         case "stroke":      this.context.stroke(); break
       }
@@ -184,6 +199,9 @@ Primer.Layer.prototype = {
       
       switch(call[0]) {
         case "fillRect":    this.ghostFillRect(e, call[1], call[2], call[3], call[4]); break
+        case "beginPath":   this.context.beginPath(); break
+        case "moveTo":      this.context.moveTo(call[1], call[2]); break
+        case "lineTo":      this.context.lineTo(call[1], call[2]); break
         case "fill":        this.ghostFill(e); break
       }
     }
@@ -197,16 +215,7 @@ Primer.Layer.prototype = {
     this.context.restore()
   },
   
-  ghostFillRect: function(e, x, y, w, h) {
-    this.context.beginPath()
-    this.context.moveTo(x, y)
-    this.context.lineTo(x + w, y)
-    this.context.lineTo(x + w, y + h)
-    this.context.lineTo(x, y + h)
-    this.context.lineTo(x, y)
-    
-    // console.log([e.localX, e.localY])
-    
+  ghostDetect: function(e) {
     if(this.context.isPointInPath(e.localX - this.x, e.localY - this.y)) {
       if(!this.mouseWithin) {
         this.mouseoverVal(e)
@@ -222,7 +231,20 @@ Primer.Layer.prototype = {
     }
   },
   
-  ghostFill: function() {
+  ghostFillRect: function(e, x, y, w, h) {
+    this.context.beginPath()
+    this.context.moveTo(x, y)
+    this.context.lineTo(x + w, y)
+    this.context.lineTo(x + w, y + h)
+    this.context.lineTo(x, y + h)
+    this.context.lineTo(x, y)
     
+    // console.log([e.localX, e.localY])
+    
+    this.ghostDetect(e)
+  },
+  
+  ghostFill: function(e) {
+    this.ghostDetect(e)
   }
 }
