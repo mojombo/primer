@@ -63,6 +63,10 @@ Primer.Layer = function() {
 Primer.Layer.prototype = {
   bind: function(primer) {
     this.primer = primer
+    
+    for(var i in this.children) {
+      this.children[i].bind(primer)
+    }
   },
   
   get context() {
@@ -105,7 +109,7 @@ Primer.Layer.prototype = {
   addChild: function(child) {
     child.bind(this.primer)
     this.children.push(child)
-    this.primer.draw()
+    if(this.primer) this.primer.draw()
   },
   
   /* events */
@@ -185,6 +189,8 @@ Primer.Layer.prototype = {
     }
     
     for(var i in this.children) {
+      e.localX -= this.x
+      e.localY -= this.y
       this.children[i].ghost(e)
     }
     

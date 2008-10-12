@@ -11,6 +11,10 @@
       $(function() {
         p1 = new Primer('#p1', 100, 100)
         
+        var hold = new Primer.Layer()
+        hold.x = 20
+        hold.y = 20
+        
         var square = new Primer.Layer()
         square.strokeStyle = "#00FF00"
         square.fillStyle = "#FF0000"
@@ -19,7 +23,8 @@
         square.x = 50
         square.y = 50
         
-        p1.addChild(square)
+        hold.addChild(square)
+        p1.addChild(hold)
         
         square.mouseover(function() {
           console.log("in")
