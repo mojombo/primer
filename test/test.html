@@ -9,7 +9,10 @@
     <script src="../primer.js" type="text/javascript"></script>
     <script type="text/javascript">
       $(function() {
-        p1 = new Primer('#p1', 300, 300)
+        // var el = $('#p1').get(0)
+        var el = "#p1"
+        
+        p1 = new Primer(el, 300, 300)
         
         var hold = new Primer.Layer()
         hold.fillRect(0, 0, 2, 2)

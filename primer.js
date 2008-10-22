@@ -10,9 +10,9 @@ Primer = function(container, width, height) {
 
 Primer.prototype = {
   init: function() {
-    var els = $(this.container)
-    els.append('<canvas width="' + this.width + '" height="' + this.height + '"></canvas>')
-    var jelc = $(this.container + ' canvas')
+    var el = $(this.container).eq(0)
+    el.append('<canvas width="' + this.width + '" height="' + this.height + '"></canvas>')
+    var jelc = $('canvas', el)
     var elc = jelc[0]
     this.context = elc.getContext('2d')
     
