@@ -10,6 +10,8 @@ Primer = function(container, width, height) {
 
 Primer.prototype = {
   init: function() {
+    $("html head").append("<style>.primer_text { margin: 0; padding: 0; }</style>")
+    
     var el = $(this.container).eq(0)
     el.css("position", "relative")
     el.append('<canvas width="' + this.width + '" height="' + this.height + '"></canvas>')
