@@ -18,7 +18,7 @@ Primer.prototype = {
     this.element = el
     
     this.root = new Primer.Layer()
-    this.root.bind(null, this)
+    this.root.bind(this)
     
     var self = this
     jelc.eq(0).mousemove(function(e) {
@@ -28,8 +28,12 @@ Primer.prototype = {
     })
   },
   
+  get primer() {
+    return this
+  },
+  
   addChild: function(child) {
-    child.bind(null, this)
+    child.bind(this)
     this.root.addChild(child)
     this.draw()
   },
@@ -67,12 +71,12 @@ Primer.Layer = function() {
 }
 
 Primer.Layer.prototype = {
-  bind: function(parent, primer) {
+  bind: function(parent) {
     this.parent = parent
-    this.primer = primer
+    this.primer = parent.primer
     
     for(var i in this.children) {
-      this.children[i].bind(this, primer)
+      this.children[i].bind(this)
     }
   },
   
@@ -118,7 +122,7 @@ Primer.Layer.prototype = {
   /* children */
   
   addChild: function(child) {
-    child.bind(this, this.primer)
+    child.bind(this)
     this.children.push(child)
     if(this.primer) this.primer.draw()
   },
