@@ -32,6 +32,22 @@ Primer.prototype = {
     return this
   },
   
+  get x() {
+    return 0
+  },
+  
+  get y() {
+    return 0
+  },
+  
+  get globalX() {
+    return 0
+  },
+  
+  get globalY() {
+    return 0
+  },
+  
   addChild: function(child) {
     child.bind(this)
     this.root.addChild(child)
@@ -40,6 +56,7 @@ Primer.prototype = {
   
   draw: function() {
     this.context.clearRect(0, 0, this.width, this.height)
+    $(".primer_text", this.element).remove()
     this.root.draw()
   },
   
@@ -106,6 +123,16 @@ Primer.Layer.prototype = {
   set y(yVal) {
     this.yVal = yVal
     if(this.primer) this.primer.draw()
+  },
+  
+  /* global x and y getters */
+  
+  get globalX() {
+    return this.x + this.parent.globalX
+  },
+  
+  get globalY() {
+    return this.y + this.parent.globalY
   },
   
   /* visibility getter/setter */
@@ -211,10 +238,10 @@ Primer.Layer.prototype = {
   replacementFillText: function(text, x, y, width) {
     var styles = ''
     styles += 'position: absolute;'
-    styles += 'left: ' + this.x + x + 'px;'
-    styles += 'top: ' + this.y + y + 'px;'
+    styles += 'left: ' + (this.globalX + x) + 'px;'
+    styles += 'top: ' + (this.globalY + y) + 'px;'
     styles += 'width: ' + width + 'px;'
-    this.element.append('<p class="stat" style="' + styles + '">' + text + '</p>')
+    this.element.append('<p class="primer_text" style="' + styles + '">' + text + '</p>')
   },
   
   /* ghost */

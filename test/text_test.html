@@ -15,7 +15,8 @@
         p1 = new Primer(el, 300, 300)
         
         var hello = new Primer.Layer()
-        hello.fillText("hello, world!", 10, 0, 100)
+        hello.fillText("hello, world!", 0, 0, 100)
+        hello.x = 10
         p1.addChild(hello)
         
         var bye = new Primer.Layer()
