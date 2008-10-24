@@ -15,9 +15,10 @@ Primer.prototype = {
     var jelc = $('canvas', el)
     var elc = jelc[0]
     this.context = elc.getContext('2d')
+    this.element = el
     
     this.root = new Primer.Layer()
-    this.root.bind(this)
+    this.root.bind(null, this)
     
     var self = this
     jelc.eq(0).mousemove(function(e) {
@@ -28,7 +29,7 @@ Primer.prototype = {
   },
   
   addChild: function(child) {
-    child.bind(this)
+    child.bind(null, this)
     this.root.addChild(child)
     this.draw()
   },
@@ -66,16 +67,21 @@ Primer.Layer = function() {
 }
 
 Primer.Layer.prototype = {
-  bind: function(primer) {
+  bind: function(parent, primer) {
+    this.parent = parent
     this.primer = primer
     
     for(var i in this.children) {
-      this.children[i].bind(primer)
+      this.children[i].bind(this, primer)
     }
   },
   
   get context() {
     return this.primer.context
+  },
+  
+  get element() {
+    return this.primer.element
   },
   
   /* x and y getters and setters */
@@ -112,7 +118,7 @@ Primer.Layer.prototype = {
   /* children */
   
   addChild: function(child) {
-    child.bind(this.primer)
+    child.bind(this, this.primer)
     this.children.push(child)
     if(this.primer) this.primer.draw()
   },
@@ -161,6 +167,10 @@ Primer.Layer.prototype = {
     this.calls.push(["fillRect", a, b, c, d])
   },
   
+  fillText: function(a, b, c, d) {
+    this.calls.push(["fillText", a, b, c, d])
+  },
+  
   /* draw */
   
   draw: function() {
@@ -181,6 +191,7 @@ Primer.Layer.prototype = {
         case "lineTo":      this.context.lineTo(call[1], call[2]); break
         case "fill":        this.context.fill(); break
         case "stroke":      this.context.stroke(); break
+        case "fillText":    this.replacementFillText(call[1], call[2], call[3], call[4]); break
       }
     }
     
@@ -189,6 +200,17 @@ Primer.Layer.prototype = {
     }
     
     this.context.restore()
+  },
+  
+  /* canvas extensions */
+  
+  replacementFillText: function(text, x, y, width) {
+    var styles = ''
+    styles += 'position: absolute;'
+    styles += 'left: ' + this.x + x + 'px;'
+    styles += 'top: ' + this.y + y + 'px;'
+    styles += 'width: ' + width + 'px;'
+    this.element.append('<p class="stat" style="' + styles + '">' + text + '</p>')
   },
   
   /* ghost */
