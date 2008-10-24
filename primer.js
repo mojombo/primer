@@ -11,6 +11,7 @@ Primer = function(container, width, height) {
 Primer.prototype = {
   init: function() {
     var el = $(this.container).eq(0)
+    el.css("position", "relative")
     el.append('<canvas width="' + this.width + '" height="' + this.height + '"></canvas>')
     var jelc = $('canvas', el)
     var elc = jelc[0]
