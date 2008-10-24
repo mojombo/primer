@@ -212,8 +212,10 @@ Primer.Layer.prototype = {
     }
     
     for(var i in this.children) {
-      e.localX -= this.x
-      e.localY -= this.y
+      if (!jQuery.browser.safari) {
+        e.localX -= this.x
+        e.localY -= this.y
+      }
       this.children[i].ghost(e)
     }
     
@@ -221,7 +223,15 @@ Primer.Layer.prototype = {
   },
   
   ghostDetect: function(e) {
-    if(this.context.isPointInPath(e.localX - this.x, e.localY - this.y)) {
+    if (!jQuery.browser.safari) {
+      testX = e.localX - this.x
+      testY = e.localY - this.y
+    } else {
+      testX = e.localX
+      testY = e.localY
+    }
+    
+    if(this.context.isPointInPath(testX, testY)) {
       if(!this.mouseWithin) {
         this.primer.actions.push([this.mouseoverVal, e])
       }
