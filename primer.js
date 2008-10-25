@@ -10,7 +10,7 @@ Primer = function(container, width, height) {
 
 Primer.prototype = {
   init: function() {
-    $("html head").append("<style>.primer_text { margin: 0; padding: 0; line-height: normal; }</style>")
+    $("html head").append("<style>.primer_text { position: absolute; margin: 0; padding: 0; line-height: normal; z-index: 0;}</style>")
     
     var el = $(this.container).eq(0)
     
@@ -19,7 +19,7 @@ Primer.prototype = {
     tel.css("position", "relative")
     this.element = tel
     
-    el.append('<canvas width="' + this.width + '" height="' + this.height + '"></canvas>')
+    el.append('<canvas width="' + this.width + '" height="' + this.height + '" style="z-index: 1;"></canvas>')
     var jelc = $('canvas', el)
     var elc = jelc[0]
     this.context = elc.getContext('2d')
@@ -304,13 +304,12 @@ Primer.Layer.prototype = {
   
   extFillText: function(text, x, y, width) {
     var styles = ''
-    styles += 'position: absolute;'
     styles += 'left: ' + (this.globalX + x) + 'px;'
     styles += 'top: ' + (this.globalY + y) + 'px;'
     styles += 'width: ' + width + 'px;'
     styles += 'text-align: ' + this.context.ext.textAlign + ';'
     styles += 'color: ' + this.context.fillStyle + ';'
-    if (this.context.ext.font) { styles += 'font: ' + this.context.ext.font + ';' }
+    styles += 'font: ' + this.context.ext.font + ';'
     this.element.append('<p class="primer_text" style="' + styles + '">' + text + '</p>')
   },
   
