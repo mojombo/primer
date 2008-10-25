@@ -13,12 +13,16 @@ Primer.prototype = {
     $("html head").append("<style>.primer_text { margin: 0; padding: 0; line-height: normal; }</style>")
     
     var el = $(this.container).eq(0)
-    el.css("position", "relative")
+    
+    el.append('<div id="primer_text"></div>')
+    var tel = $("#primer_text", el).eq(0)
+    tel.css("position", "relative")
+    this.element = tel
+    
     el.append('<canvas width="' + this.width + '" height="' + this.height + '"></canvas>')
     var jelc = $('canvas', el)
     var elc = jelc[0]
     this.context = elc.getContext('2d')
-    this.element = el
     
     this.root = new Primer.Layer()
     this.root.bind(this)
@@ -62,6 +66,7 @@ Primer.prototype = {
   draw: function() {
     this.context.clearRect(0, 0, this.width, this.height)
     $(".primer_text", this.element).remove()
+    this.setupExt()
     this.root.draw()
   },
   
