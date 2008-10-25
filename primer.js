@@ -64,6 +64,11 @@ Primer.prototype = {
     this.draw()
   },
   
+  removeChild: function(child) {
+    this.root.removeChild(child)
+    this.draw()
+  },
+  
   draw: function() {
     this.context.clearRect(0, 0, this.width, this.height)
     $(".primer_text", this.element).remove()
@@ -170,6 +175,17 @@ Primer.Layer.prototype = {
     child.bind(this)
     this.children.push(child)
     if(this.primer) this.primer.draw()
+  },
+  
+  removeChild: function(child) {
+    var newChildren = []
+    for (var i = 0; i < this.children.length; i++) {
+      var c = this.children[i]
+      if (c != child) {
+        newChildren.push(c)
+      }
+    }
+    this.children = newChildren
   },
   
   /* events */
