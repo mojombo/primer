@@ -31,8 +31,9 @@ Primer.prototype = {
     
     var self = this
     jelc.eq(0).mousemove(function(e) {
-      e.localX = e.clientX - elc.offsetLeft
-      e.localY = e.clientY - elc.offsetTop
+      var bounds = e.currentTarget.getBoundingClientRect()
+      e.localX = e.clientX - bounds.left
+      e.localY = e.clientY - bounds.top
       self.ghost(e)
     })
   },
