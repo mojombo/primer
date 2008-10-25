@@ -23,6 +23,8 @@ Primer.prototype = {
     this.root = new Primer.Layer()
     this.root.bind(this)
     
+    this.setupExt()
+    
     var self = this
     jelc.eq(0).mousemove(function(e) {
       e.localX = e.clientX - elc.offsetLeft
@@ -70,6 +72,12 @@ Primer.prototype = {
       action[0](action[1])
     }
     this.actions = []
+  },
+  
+  setupExt: function() {
+    this.context.ext = {
+      textAlign: "left"
+    }
   }
 }
 
@@ -205,6 +213,10 @@ Primer.Layer.prototype = {
     this.calls.push(["fillText", a, b, c, d])
   },
   
+  set textAlign(a) {
+    this.calls.push(["textAlign", a])
+  },
+  
   /* draw */
   
   draw: function() {
@@ -225,7 +237,8 @@ Primer.Layer.prototype = {
         case "lineTo":      this.context.lineTo(call[1], call[2]); break
         case "fill":        this.context.fill(); break
         case "stroke":      this.context.stroke(); break
-        case "fillText":    this.replacementFillText(call[1], call[2], call[3], call[4]); break
+        case "fillText":    this.extFillText(call[1], call[2], call[3], call[4]); break
+        case "textAlign":   this.context.ext.textAlign = call[1]
       }
     }
     
@@ -238,12 +251,13 @@ Primer.Layer.prototype = {
   
   /* canvas extensions */
   
-  replacementFillText: function(text, x, y, width) {
+  extFillText: function(text, x, y, width) {
     var styles = ''
     styles += 'position: absolute;'
     styles += 'left: ' + (this.globalX + x) + 'px;'
     styles += 'top: ' + (this.globalY + y) + 'px;'
     styles += 'width: ' + width + 'px;'
+    styles += 'text-align: ' + this.context.ext.textAlign + ';'
     this.element.append('<p class="primer_text" style="' + styles + '">' + text + '</p>')
   },
   
