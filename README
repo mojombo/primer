@@ -89,3 +89,23 @@ square.
   square.mouseout(function() {
     console.log("out")
   })
+  
+
+BASIC TEXT EXAMPLE
+-----------------------------------------------------------------------------
+
+Primer implements a basic version of Canvas' text api with standard DOM
+elements since no major browser release yet offers this. Let's draw the text
+"Hello, World!" in 12px Monaco in red at (0, 0) with a max width of 100px:
+
+  var text = Primer.Layer()
+  text.font = "12px Monaco"
+  text.fillStyle = "#FF0000"
+  text.textAlign = "center"
+  text.fillText("Hello, World!", 0, 0, 100)
+  
+The signature of fillText() is (text, x, y, width). The font attribute takes
+standard CSS font values.
+
+The text API currently does not support any transformations except
+translation. 
