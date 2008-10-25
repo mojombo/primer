@@ -10,7 +10,7 @@ Primer = function(container, width, height) {
 
 Primer.prototype = {
   init: function() {
-    $("html head").append("<style>.primer_text { margin: 0; padding: 0; }</style>")
+    $("html head").append("<style>.primer_text { margin: 0; padding: 0; line-height: normal; }</style>")
     
     var el = $(this.container).eq(0)
     el.css("position", "relative")
@@ -76,7 +76,8 @@ Primer.prototype = {
   
   setupExt: function() {
     this.context.ext = {
-      textAlign: "left"
+      textAlign: "left",
+      font: "10px sans-serif"
     }
   }
 }
@@ -217,6 +218,10 @@ Primer.Layer.prototype = {
     this.calls.push(["textAlign", a])
   },
   
+  set font(a) {
+    this.calls.push(["font", a])
+  },
+  
   /* draw */
   
   draw: function() {
@@ -239,6 +244,7 @@ Primer.Layer.prototype = {
         case "stroke":      this.context.stroke(); break
         case "fillText":    this.extFillText(call[1], call[2], call[3], call[4]); break
         case "textAlign":   this.context.ext.textAlign = call[1]
+        case "font":        this.context.ext.font = call[1]
       }
     }
     
@@ -258,6 +264,7 @@ Primer.Layer.prototype = {
     styles += 'top: ' + (this.globalY + y) + 'px;'
     styles += 'width: ' + width + 'px;'
     styles += 'text-align: ' + this.context.ext.textAlign + ';'
+    if (this.context.ext.font) { styles += 'font: ' + this.context.ext.font + ';' }
     this.element.append('<p class="primer_text" style="' + styles + '">' + text + '</p>')
   },
   
