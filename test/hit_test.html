@@ -15,7 +15,11 @@
         p1 = new Primer(el, 300, 300)
         
         var box = new Primer.Layer()
-        box.fillRoundedRect(0, 0, 40, 40, 10)
+        box.fillStyle = "#AAFFAA"
+        box.strokeStyle = "#000000"
+        box.roundedRect(0, 0, 40, 40, 10)
+        box.fill()
+        box.stroke()
         box.visible = true
         
         box.x = 10

@@ -232,7 +232,7 @@ Primer.Layer.prototype = {
   
   /* meta canvas api */
   
-  fillRoundedRect: function(x, y, w, h, rad) {
+  roundedRect: function(x, y, w, h, rad) {
     this.beginPath()
     this.moveTo(x, y + rad);
     this.lineTo(x, y + h - rad);
@@ -243,6 +243,10 @@ Primer.Layer.prototype = {
     this.quadraticCurveTo(x + w, y, x + w - rad, y);
     this.lineTo(x + rad, y);
     this.quadraticCurveTo(x, y, x, y + rad);
+  },
+  
+  fillRoundedRect: function(x, y, w, h, rad) {
+    this.roundedRect(x, y, w, h, rad)
     this.fill()
   },
   
