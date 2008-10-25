@@ -232,6 +232,15 @@ Primer.Layer.prototype = {
   
   /* meta canvas api */
   
+  rect: function(x, y, w, h) {
+    this.beginPath()
+    this.moveTo(x, y)
+    this.lineTo(x + w, y)
+    this.lineTo(x + w, y + h)
+    this.lineTo(x, y + h)
+    this.lineTo(x, y)
+  },
+  
   roundedRect: function(x, y, w, h, rad) {
     this.beginPath()
     this.moveTo(x, y + rad);
@@ -272,6 +281,7 @@ Primer.Layer.prototype = {
         case "arc":              this.context.arc(call[1], call[2], call[3], call[4], call[5], call[6]); break
         case "fill":             this.context.fill(); break
         case "stroke":           this.context.stroke(); break
+        
         case "fillText":         this.extFillText(call[1], call[2], call[3], call[4]); break
         case "textAlign":        this.context.ext.textAlign = call[1]
         case "font":             this.context.ext.font = call[1]
@@ -311,11 +321,13 @@ Primer.Layer.prototype = {
       var call = this.calls[i]
       
       switch(call[0]) {
-        case "fillRect":    this.ghostFillRect(e, call[1], call[2], call[3], call[4]); break
-        case "beginPath":   this.context.beginPath(); break
-        case "moveTo":      this.context.moveTo(call[1], call[2]); break
-        case "lineTo":      this.context.lineTo(call[1], call[2]); break
-        case "fill":        this.ghostFill(e); break
+        case "fillRect":         this.ghostFillRect(e, call[1], call[2], call[3], call[4]); break
+        case "beginPath":        this.context.beginPath(); break
+        case "moveTo":           this.context.moveTo(call[1], call[2]); break
+        case "lineTo":           this.context.lineTo(call[1], call[2]); break
+        case "quadraticCurveTo": this.context.quadraticCurveTo(call[1], call[2], call[3], call[4]); break
+        case "arc":              this.context.arc(call[1], call[2], call[3], call[4], call[5], call[6]); break
+        case "fill":             this.ghostFill(e); break
       }
     }
     
