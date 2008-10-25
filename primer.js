@@ -210,6 +210,10 @@ Primer.Layer.prototype = {
     this.calls.push(["fillRect", a, b, c, d])
   },
   
+  fillRoundedRect: function(a, b, c, d, e) {
+    this.calls.push(["fillRoundedRect", a, b, c, d, e])
+  },
+  
   fillText: function(a, b, c, d) {
     this.calls.push(["fillText", a, b, c, d])
   },
@@ -234,17 +238,18 @@ Primer.Layer.prototype = {
       var call = this.calls[i]
       
       switch(call[0]) {
-        case "strokeStyle": this.context.strokeStyle = call[1]; break
-        case "fillStyle":   this.context.fillStyle = call[1]; break
-        case "fillRect":    this.context.fillRect(call[1], call[2], call[3], call[4]); break
-        case "beginPath":   this.context.beginPath(); break
-        case "moveTo":      this.context.moveTo(call[1], call[2]); break
-        case "lineTo":      this.context.lineTo(call[1], call[2]); break
-        case "fill":        this.context.fill(); break
-        case "stroke":      this.context.stroke(); break
-        case "fillText":    this.extFillText(call[1], call[2], call[3], call[4]); break
-        case "textAlign":   this.context.ext.textAlign = call[1]
-        case "font":        this.context.ext.font = call[1]
+        case "strokeStyle":     this.context.strokeStyle = call[1]; break
+        case "fillStyle":       this.context.fillStyle = call[1]; break
+        case "fillRect":        this.context.fillRect(call[1], call[2], call[3], call[4]); break
+        case "fillRoundedRect": this.addFillRoundedRect(call[1], call[2], call[3], call[4], call[5]); break
+        case "beginPath":       this.context.beginPath(); break
+        case "moveTo":          this.context.moveTo(call[1], call[2]); break
+        case "lineTo":          this.context.lineTo(call[1], call[2]); break
+        case "fill":            this.context.fill(); break
+        case "stroke":          this.context.stroke(); break
+        case "fillText":        this.extFillText(call[1], call[2], call[3], call[4]); break
+        case "textAlign":       this.context.ext.textAlign = call[1]
+        case "font":            this.context.ext.font = call[1]
       }
     }
     
@@ -267,6 +272,25 @@ Primer.Layer.prototype = {
     styles += 'color: ' + this.context.fillStyle + ';'
     if (this.context.ext.font) { styles += 'font: ' + this.context.ext.font + ';' }
     this.element.append('<p class="primer_text" style="' + styles + '">' + text + '</p>')
+  },
+  
+  /* canvas additions */
+  
+  addFillRoundedRect: function(x, y, w, h, rad) {
+    this.context.beginPath()
+    this.context.moveTo(x, y + rad)
+    this.context.lineTo(x, y + h - rad)
+    this.context.arc(x + rad, y + h - rad, rad, Math.PI / 2, Math.PI, false)
+    this.context.lineTo(x + rad, y + h)
+    this.context.lineTo(x + w - rad, y + h)
+    this.context.arc(x + w - rad, y + h - rad, rad, 0, Math.PI / 2, false)
+    this.context.lineTo(x + w, y + h - rad)
+    this.context.lineTo(x + w, y + rad)
+    this.context.arc(x + w - rad, y + rad, rad, 0, 3 * Math.PI / 2, true)
+    this.context.lineTo(x + w - rad, y)
+    this.context.lineTo(x + rad, y)
+    this.context.arc(x + rad, y + rad, rad, 3 * Math.PI / 2, Math.PI, true)
+    this.fill()
   },
   
   /* ghost */
